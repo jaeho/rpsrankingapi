@@ -22,12 +22,9 @@ from google.appengine.ext import db
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        try:
-            self.response.write('Welcome. You are already dead body..')
-        except DeadlineExceededError:
-            self.response.write('Error')
+        projection.fail_result(self, 4, 'Welcome. You are already dead body..')
         	
-class MemberLogin(webapp2.RequestHandler):
+class MemberLoginRequest(webapp2.RequestHandler):
     def get(self):
         try:
             p_name = self.request.get('name')
@@ -56,6 +53,14 @@ class MemberLogin(webapp2.RequestHandler):
                     projection.fail_result(self, 510, 'invalid pincode')
         except:
             projection.fail_result(self, 500, 'unknown error')                    
+
+class GameRequest(webapp2.RequestHandler):
+    def get(self):
+        try:
+            # TODO
+            
+        except:
+            projection.fail_result(self, 500, 'unknown error')
             
 class GetMembers(webapp2.RequestHandler):
     def get(self):
@@ -64,7 +69,8 @@ class GetMembers(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/member/login', MemberLogin),
+    ('/member/login', MemberLoginRequest),
+    ('/game/request', GameRequest)
     ('/get', GetMembers)
 ], debug=True)
 
